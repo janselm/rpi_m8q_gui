@@ -1,0 +1,15 @@
+# Object files
+*.o
+
+# Executables
+guiTest
+checksum
+
+# Backup/editor temp files
+*~
+*.swp
+.DS_Store
+
+# Dependency/system
+bcm2835*.a
+bcm2835*.so
