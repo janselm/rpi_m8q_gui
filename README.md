@@ -21,3 +21,17 @@ A multithreaded C application for Raspberry Pi that reads real-time NAV-PVT data
 
 ```sh
 make
+```
+
+## Run
+```
+./guiTest
+```
+Wiring
+u-blox Pin	Raspberry Pi Pin
+VCC	3.3V (Pin 1)
+GND	GND (Pin 6)
+SCK	SPI0 SCLK (Pin 23)
+MISO	SPI0 MISO (Pin 21)
+MOSI	SPI0 MOSI (Pin 19)
+CS	SPI0 CE0 (Pin 24)
