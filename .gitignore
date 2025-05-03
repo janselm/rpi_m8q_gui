@@ -2,7 +2,6 @@
 *.o
 
 # Executables
-guiTest
 checksum
 
 # Backup/editor temp files
