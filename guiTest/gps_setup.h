@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdatomic.h>
+#include <pthread.h>  
 
 // NAV PVT STRUCT
 typedef struct navpvt_data {
@@ -95,11 +96,14 @@ typedef struct incomingUBX {
   uint8_t ck_b;
 } incomingUBX;
 
-typedef struct bufferStruct{
+
+typedef struct bufferStruct {
   incomingUBX *fBuffer;
   incomingUBX *bBuffer;
   atomic_bool *isRunning;
+  pthread_mutex_t bufferLock;   
 } bufferStruct;
+
 
 void pollConfig();
 

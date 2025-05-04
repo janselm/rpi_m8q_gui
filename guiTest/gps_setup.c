@@ -163,9 +163,10 @@ void *startGPS(void *arg) {
   
   atomic_bool useFrontBuffer = ATOMIC_VAR_INIT(true);
   while(atomic_load(gpsRunning)) {
+    pthread_mutex_lock(&buffers->bufferLock);
     readUBX(currentBuffer);
+    pthread_mutex_unlock(&buffers->bufferLock);
     navpvt = (navpvt_data*)currentBuffer->payload;  // loaded to print values to terminal
-    g_idle_add(updateGPSLabels, GINT_TO_POINTER(atomic_load(&useFrontBuffer)));
     printf("LAT: %d, LON: %d\n", navpvt->lat, navpvt->lon);
     if(atomic_load(&useFrontBuffer)) {
       currentBuffer = buffers->bBuffer;

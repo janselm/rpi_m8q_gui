@@ -192,6 +192,8 @@ void initGUI() {
   g_signal_connect(G_OBJECT(guiWindow.timeZoneDropdown), "changed", G_CALLBACK(on_time_zone_changed), NULL);
   g_signal_connect(guiWindow.window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
   g_signal_connect(G_OBJECT(guiWindow.closeButton), "clicked", G_CALLBACK(on_close_button_clicked), NULL);
+  g_timeout_add(500, updateGPSLabels, GINT_TO_POINTER(1));  // or 0 for backBuffer
+
 }
 
 
@@ -259,11 +261,14 @@ void *startGUI(void *arg) {
 gboolean updateGPSLabels(gpointer data) {
   // Convert the gpointer back to a boolean value
   gboolean useFirstBuffer = GPOINTER_TO_INT(data);
+  pthread_mutex_lock(&guiBufferStruct->bufferLock);
   if (useFirstBuffer) {
-    navpvt = (navpvt_data *)guiFrontBuffer->payload;
+      navpvt = (navpvt_data *)guiFrontBuffer->payload;
   } else {
-    navpvt = (navpvt_data *)guiBackBuffer->payload;
+      navpvt = (navpvt_data *)guiBackBuffer->payload;
   }
+  pthread_mutex_unlock(&guiBufferStruct->bufferLock);
+  
   // gSpeed is given in mm/s. need to convert to mph. divide mm/s by 447
   int rawSpeed = navpvt->gSpeed;
   float speed_mph = (float)rawSpeed / 447.0;

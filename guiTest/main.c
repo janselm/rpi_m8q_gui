@@ -82,7 +82,6 @@ int main(void) {
   buffers.isRunning = &atomic_bool_isRunning;
 
   pthread_t gps_thread;
-  pthread_t gui_thread;
 
   uint32_t divider = (SPI_BASE_CLOCK_SPEED/SPI_BAUD_RATE);
 
@@ -114,18 +113,18 @@ int main(void) {
   // to check the config on startup. 
   sendConfig();
 
-  if(pthread_create(&gui_thread, NULL, startGUI, (void*)&buffers)) {
-    printf("Error: Failed to create thread\n");
-    return -1;
-  }
-  usleep(500000);
+  pthread_mutex_init(&buffers.bufferLock, NULL);
+
   if(pthread_create(&gps_thread, NULL, startGPS, (void*)&buffers)) {
-    printf("Error: Failed to create thread\n");
+    printf("Error: Failed to create GPS thread\n");
     return -1;
   }
-  
+
+  // GUI must run in main thread
+  startGUI((void*)&buffers);
+
   pthread_join(gps_thread, NULL);
-  pthread_join(gui_thread, NULL);
+  pthread_mutex_destroy(&buffers.bufferLock);
 
   free(frontBuffer->payload);
   free(backBuffer->payload);

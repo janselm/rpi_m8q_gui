@@ -8,6 +8,7 @@ checksum
 *~
 *.swp
 .DS_Store
+.vscode
 
 # Dependency/system
 bcm2835*.a
