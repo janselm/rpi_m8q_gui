@@ -76,26 +76,26 @@ void on_close_button_clicked(GtkWidget *widget, gpointer data) {
 gboolean on_circle_clicked(GtkWidget *widget, GdkEventButton *event, gpointer user_data) {
   static bool isPrimaryRed = true;
   static bool isSecondaryRed = true;
+  GdkPixbuf *pixbuf;
 
   if (widget == guiWindow.primaryAirCircle) {
-    if (isPrimaryRed) {
-      gtk_image_set_from_file(GTK_IMAGE(guiWindow.primaryAirCircle), "green_circle.png");
-    } else {
-      gtk_image_set_from_file(GTK_IMAGE(guiWindow.primaryAirCircle), "red_circle.png");
-    }
+    pixbuf = gdk_pixbuf_new_from_file_at_scale(
+        isPrimaryRed ? "green_circle.png" : "red_circle.png", 50, 50, TRUE, NULL);
+    gtk_image_set_from_pixbuf(GTK_IMAGE(guiWindow.primaryAirCircle), pixbuf);
+    g_object_unref(pixbuf);
     isPrimaryRed = !isPrimaryRed;
 
   } else if (widget == guiWindow.secondaryAirCircle) {
-    if (isSecondaryRed) {
-      gtk_image_set_from_file(GTK_IMAGE(guiWindow.secondaryAirCircle), "green_circle.png");
-    } else {
-      gtk_image_set_from_file(GTK_IMAGE(guiWindow.secondaryAirCircle), "red_circle.png");
-    }
+    pixbuf = gdk_pixbuf_new_from_file_at_scale(
+        isSecondaryRed ? "green_circle.png" : "red_circle.png", 50, 50, TRUE, NULL);
+    gtk_image_set_from_pixbuf(GTK_IMAGE(guiWindow.secondaryAirCircle), pixbuf);
+    g_object_unref(pixbuf);
     isSecondaryRed = !isSecondaryRed;
   }
 
   return TRUE;
 }
+
 
 
 /**
@@ -170,8 +170,10 @@ void initGUI() {
   gtk_box_pack_start(GTK_BOX(rightVBox), guiWindow.primaryAirLabel, FALSE, FALSE, 0);
 
   // Red circle (Primary Air)
-  guiWindow.primaryAirCircle = gtk_image_new_from_file("red_circle.png");
-  gtk_box_pack_start(GTK_BOX(rightVBox), guiWindow.primaryAirCircle, FALSE, FALSE, 0);
+  GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale("red_circle.png", 50, 50, TRUE, NULL);
+  guiWindow.primaryAirCircle = gtk_image_new_from_pixbuf(pixbuf);
+  g_object_unref(pixbuf); // free when no longer needed
+    gtk_box_pack_start(GTK_BOX(rightVBox), guiWindow.primaryAirCircle, FALSE, FALSE, 0);
   
   // Add click interaction to toggle color
   gtk_widget_set_events(guiWindow.primaryAirCircle, GDK_BUTTON_PRESS_MASK);
@@ -182,8 +184,10 @@ void initGUI() {
   gtk_box_pack_start(GTK_BOX(rightVBox), guiWindow.secondaryAirLabel, FALSE, FALSE, 0);
 
   // Red circle (Secondary Air)
-  guiWindow.secondaryAirCircle = gtk_image_new_from_file("red_circle.png");
-  gtk_box_pack_start(GTK_BOX(rightVBox), guiWindow.secondaryAirCircle, FALSE, FALSE, 0);
+  pixbuf = gdk_pixbuf_new_from_file_at_scale("red_circle.png", 50, 50, TRUE, NULL);
+  guiWindow.secondaryAirCircle = gtk_image_new_from_pixbuf(pixbuf);
+  g_object_unref(pixbuf);
+    gtk_box_pack_start(GTK_BOX(rightVBox), guiWindow.secondaryAirCircle, FALSE, FALSE, 0);
   
   // Add click interaction to toggle color
   gtk_widget_set_events(guiWindow.secondaryAirCircle, GDK_BUTTON_PRESS_MASK);
