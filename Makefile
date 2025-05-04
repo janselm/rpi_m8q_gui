@@ -8,7 +8,7 @@ CFLAGS = -Wall `pkg-config --cflags gtk+-3.0`
 LDFLAGS = `pkg-config --libs gtk+-3.0` -lbcm2835
 
 # Target binary name
-TARGET = guiTest
+TARGET = test
 
 # Source Files
 SOURCES = main.c gps_setup.c gui_setup.c
