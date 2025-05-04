@@ -39,7 +39,6 @@ atomic_bool *guiRunning;
 
 // declare the utc offset variable
 int utcOffset = 0; 
-static bool isRed = true;
 
 /**
  * applies the appropriate utc offset when the user selects the time zone
@@ -74,22 +73,28 @@ void on_close_button_clicked(GtkWidget *widget, gpointer data) {
   gtk_main_quit();
 }
 
-static gboolean draw_red_circle(GtkWidget *widget, cairo_t *cr, gpointer data) {
-  guint width, height;
-  GdkRGBA color;
+gboolean on_circle_clicked(GtkWidget *widget, GdkEventButton *event, gpointer user_data) {
+  static bool isPrimaryRed = true;
+  static bool isSecondaryRed = true;
 
-  width = gtk_widget_get_allocated_width(widget);
-  height = gtk_widget_get_allocated_height(widget);
+  if (widget == guiWindow.primaryAirCircle) {
+    if (isPrimaryRed) {
+      gtk_image_set_from_file(GTK_IMAGE(guiWindow.primaryAirCircle), "green_circle.png");
+    } else {
+      gtk_image_set_from_file(GTK_IMAGE(guiWindow.primaryAirCircle), "red_circle.png");
+    }
+    isPrimaryRed = !isPrimaryRed;
 
-  // Set color for the circle (Red)
-  gdk_rgba_parse(&color, "red");
-  gdk_cairo_set_source_rgba(cr, &color);
+  } else if (widget == guiWindow.secondaryAirCircle) {
+    if (isSecondaryRed) {
+      gtk_image_set_from_file(GTK_IMAGE(guiWindow.secondaryAirCircle), "green_circle.png");
+    } else {
+      gtk_image_set_from_file(GTK_IMAGE(guiWindow.secondaryAirCircle), "red_circle.png");
+    }
+    isSecondaryRed = !isSecondaryRed;
+  }
 
-  // Draw the circle
-  cairo_arc(cr, width / 2, height / 2, MIN(width, height) / 2 - 5, 0, 2 * G_PI);
-  cairo_fill(cr);
-
-  return FALSE;
+  return TRUE;
 }
 
 
@@ -201,32 +206,6 @@ void initGUI() {
   g_timeout_add(500, updateGPSLabels, GINT_TO_POINTER(1));  // or 0 for backBuffer
 
 }
-
-gboolean on_circle_clicked(GtkWidget *widget, GdkEventButton *event, gpointer user_data) {
-  static bool isPrimaryRed = true;
-  static bool isSecondaryRed = true;
-
-  if (widget == guiWindow.primaryAirCircle) {
-    if (isPrimaryRed) {
-      gtk_image_set_from_file(GTK_IMAGE(guiWindow.primaryAirCircle), "green_circle.png");
-    } else {
-      gtk_image_set_from_file(GTK_IMAGE(guiWindow.primaryAirCircle), "red_circle.png");
-    }
-    isPrimaryRed = !isPrimaryRed;
-
-  } else if (widget == guiWindow.secondaryAirCircle) {
-    if (isSecondaryRed) {
-      gtk_image_set_from_file(GTK_IMAGE(guiWindow.secondaryAirCircle), "green_circle.png");
-    } else {
-      gtk_image_set_from_file(GTK_IMAGE(guiWindow.secondaryAirCircle), "red_circle.png");
-    }
-    isSecondaryRed = !isSecondaryRed;
-  }
-
-  return TRUE;
-}
-
-
 
 void *startGUI(void *arg) {
   // set global variables with address of gps buffers
