@@ -13,3 +13,4 @@ checksum
 # Dependency/system
 bcm2835*.a
 bcm2835*.so
+testMap.png
