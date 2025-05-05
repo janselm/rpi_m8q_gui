@@ -14,3 +14,4 @@ checksum
 bcm2835*.a
 bcm2835*.so
 testMap.png
+map.geojson
