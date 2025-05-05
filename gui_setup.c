@@ -86,10 +86,10 @@
  static bool isSecondaryPressureOK = false;
  
  // Map bounding box (hardcoded to test image)
- #define MAP_LAT_TOP     35.050190
- #define MAP_LAT_BOTTOM  35.012212
- #define MAP_LON_LEFT   -78.954400
- #define MAP_LON_RIGHT  -78.884676
+ #define MAP_LAT_TOP     // lat top val
+ #define MAP_LAT_BOTTOM  // lat bottom val
+ #define MAP_LON_LEFT   // lon val
+ #define MAP_LON_RIGHT  // lon val
  
  /**
   * @brief Updates GUI pressure indicators with colored icons.
