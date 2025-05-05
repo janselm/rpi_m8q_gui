@@ -12,7 +12,7 @@ A multithreaded C application for Raspberry Pi that reads real-time NAV-PVT data
 ## Requirements
 
 - Raspberry Pi with SPI enabled
-- u-blox GNSS module (ZOE-M8Q or similar)
+- u-blox GNSS module (ZOE-M8Q)
 - [bcm2835 library](http://www.airspayce.com/mikem/bcm2835/)
 - GTK 3
 - `make`, `gcc`, `pthread`
@@ -29,7 +29,7 @@ make
 ```
 # u-blox PVT Viewer for Raspberry Pi
 
-A multithreaded C application for Raspberry Pi that reads real-time NAV-PVT data from a u-blox GPS module (e.g., ZOE-M8Q) over SPI using the UBX protocol, and displays location and time data via a GTK-based GUI.
+A multithreaded C application for Raspberry Pi that reads real-time NAV-PVT data from a u-blox GPS module (ZOE-M8Q) over SPI using the UBX protocol, and displays location and time data via a GTK-based GUI.
 
 ## Features
 
@@ -41,9 +41,10 @@ A multithreaded C application for Raspberry Pi that reads real-time NAV-PVT data
 ## Requirements
 
 - Raspberry Pi with SPI enabled
-- u-blox GNSS module (ZOE-M8Q or similar)
+- u-blox GNSS module (ZOE-M8Q)
 - [bcm2835 library](http://www.airspayce.com/mikem/bcm2835/)
 - GTK 3
+- png map with bounding box json data (geojson.io)
 - `make`, `gcc`, `pthread`
 
 ## Build
